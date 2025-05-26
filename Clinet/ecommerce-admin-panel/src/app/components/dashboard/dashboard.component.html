@@ -1,0 +1,81 @@
+ 
+
+<div class="container-fluid py-4" style="min-height: 100vh; overflow-y: auto;">
+  <div class="row mb-4">
+    <div class="col-md-3" *ngFor="let card of statsCards">
+      <div class="card shadow-sm border-0 mb-3">
+        <div class="card-body d-flex align-items-center justify-content-between">
+          <div>
+            <h6 class="mb-1">{{ card.title }}</h6>
+            <h4 class="mb-0 fw-bold">{{ card.value }}</h4>
+          </div>
+          <i class="bi {{ card.icon }} fs-2 text-primary"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4">
+    <div class="col-md-6 mb-4">
+      <div class="card shadow-sm border-0">
+        <div class="card-header bg-white fw-bold">Revenue Overview</div>
+        <div class="card-body">
+          <canvas baseChart
+            [data]="revenueChartData"
+            [options]="revenueChartOptions"
+            [type]="'line'">
+          </canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6 mb-4">
+      <div class="card shadow-sm border-0">
+        <div class="card-header bg-white fw-bold">Sales by Category</div>
+        <div class="card-body">
+          <canvas baseChart
+            [data]="salesChartData"
+            [options]="salesChartOptions"
+            [type]="'bar'">
+          </canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <div class="card shadow-sm border-0">
+        <div class="card-header bg-white fw-bold">Recent Orders</div>
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table table-hover table-striped mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th>Order ID</th>
+                  <th>Customer</th>
+                  <th>Date</th>
+                  <th>Total</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let order of recentOrders">
+                  <td>{{ order.orderId }}</td>
+                  <td>{{ order.customer }}</td>
+                  <td>{{ order.date | date:'shortDate' }}</td>
+                  <td>{{ order.totalAmount | currency }}</td>
+                  <td>
+                    <span class="badge bg-success" *ngIf="order.status === 'Completed'">Completed</span>
+                    <span class="badge bg-warning text-dark" *ngIf="order.status === 'Pending'">Pending</span>
+                    <span class="badge bg-danger" *ngIf="order.status === 'Cancelled'">Cancelled</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 
